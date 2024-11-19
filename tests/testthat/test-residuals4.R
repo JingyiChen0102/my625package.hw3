@@ -30,7 +30,7 @@ test_that("residual4 calculates all residual types correctly", {
   expect_equal(residuals$ext_student_residuals, expected_ext_student_residuals)
 })
 
-test_that("calculate_residuals output structure is correct", {
+test_that("residuals4 output structure is correct", {
   data(mtcars)
   model <- lm(mpg ~ wt + hp, data = mtcars)
   residuals <- residuals4(model)
