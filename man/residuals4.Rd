@@ -18,8 +18,8 @@ This function calculates raw residuals, standardized residuals, internally stude
 and externally studentized residuals for a fitted linear model.
 }
 \examples{
-data(mydata)
-model <- lm(y ~ X, data = mydata)
+data(mtcars)
+model <- lm(mpg ~ wt + hp, data = mtcars)
 residuals <- residuals4(model)
 print(residuals)
 }
