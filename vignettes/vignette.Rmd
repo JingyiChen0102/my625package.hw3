@@ -1,0 +1,58 @@
+---
+title: "vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(my625package.hw3)
+library(testthat)
+library(bench)
+```
+
+To use the function my_lm
+
+```{r}
+data(mtcars)
+X <- as.matrix(mtcars[, c("wt", "hp")])
+y <- mtcars$mpg
+result <- fastlm(X, y)
+print(result)
+```
+
+comparisons against the original R functions to demonstrate both the correctness 
+
+```{r}
+test_that("my_lm produces correct results", {
+  data(mtcars)
+  X <- as.matrix(mtcars[, c("wt", "hp")]) 
+  y <- mtcars$mpg
+
+  # using my_lm function
+  fastlm_result <- my_lm(X, y)
+
+  # using original R function:lm()
+  lm_result <- lm(mpg ~ wt + hp, data = mtcars)
+
+  # compare the coefficients
+  expect_true(all.equal(as.numeric(fastlm_result$coefficients),
+                        as.numeric(coef(lm_result))))
+})
+
+```
+
+efficiency of the implemented functions.
+
+```{r}
+bench::mark(
+  fastlm = as.numeric(fastlm(X, y)$coefficients),
+  lm = as.numeric(coef(lm(mpg ~ wt + hp, data = mtcars)))
+)
+```
+
