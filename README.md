@@ -1,4 +1,4 @@
-# my625package.hw3
+# my625packagehw3
 The goal of my625package.hw3 is to provides an optimized implementation of linear regression using matrix operations. It is designed to be more efficiency than the base R `lm()` function for small to moderately sized datasets. The package also includes features for computing key regression statistics such as R-squared, adjusted R-squared, residuals, and F-statistics.
 
 ## Key Features
