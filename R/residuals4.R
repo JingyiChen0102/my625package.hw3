@@ -10,15 +10,14 @@
 #' @export
 #'
 #' @examples
-#' data(mydata)
-#' model <- lm(y ~ X, data = mydata)
+#' data(mtcars)
+#' model <- lm(mpg ~ wt + hp, data = mtcars)
 #' residuals <- residuals4(model)
 #' print(residuals)
 residuals4 <- function(model) {
-  X <- model$X
-  y <- model$y
+  X <- model.matrix(model)
+  y <- model.response(model.frame(model))
   residuals <- model$residuals
-  fitted <- model$fitted
 
   # residuals
   raw_residuals <- residuals
