@@ -22,6 +22,6 @@ Implements linear regression using efficient matrix operations, providing detail
 data(mtcars)
 X <- as.matrix(mtcars[, c("wt", "hp")])
 y <- mtcars$mpg
-result <- fastlm(X, y)
+result <- my_lm(X, y)
 print(result)
 }
