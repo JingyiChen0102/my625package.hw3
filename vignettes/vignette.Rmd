@@ -47,7 +47,7 @@ test_that("my_lm produces correct results", {
 
 ```
 
-efficiency of the implemented functions.
+test the efficiency of the implemented functions.
 
 ```{r}
 bench::mark(
@@ -55,4 +55,43 @@ bench::mark(
   lm = as.numeric(coef(lm(mpg ~ wt + hp, data = mtcars)))
 )
 ```
+To use the function my_lm2
 
+```{r}
+# need to source rcpp_lm.cpp first
+data(mtcars)
+X <- as.matrix(mtcars[, c("wt", "hp")])
+y <- mtcars$mpg
+result <- my_lm2(X, y)
+result
+```
+comparisons against the original R functions to demonstrate both the correctness 
+
+```{r}
+test_that("my_lm2 produces correct results", {
+  data(mtcars)
+  X <- as.matrix(mtcars[, c("wt", "hp")])
+  y <- mtcars$mpg
+  # using my_lm2 function
+  my_result <- my_lm2(X, y)
+  # using original R function:lm()
+  lm_result <- lm(mpg ~ wt + hp, data = mtcars)
+  # compare the coefficients
+  expect_true(all.equal(as.numeric(my_result$coefficients),
+                        as.numeric(coef(lm_result))))
+})
+```
+
+test the efficiency of the implemented function and function before using rcpp
+
+```{r}
+# compare with lm() function
+bench::mark(
+  my_lm = as.numeric(my_lm2(X, y)$coefficients),
+  lm = as.numeric(coef(lm(mpg ~ wt + hp, data = mtcars)))
+)
+# compare with my_lm function
+bench::mark(
+  my_lm = as.numeric(my_lm2(X, y)$coefficients),
+  lm = as.numeric(my_lm(X, y)$coefficients)
+)
