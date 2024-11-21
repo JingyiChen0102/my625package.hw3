@@ -95,3 +95,4 @@ bench::mark(
   my_lm = as.numeric(my_lm2(X, y)$coefficients),
   lm = as.numeric(my_lm(X, y)$coefficients)
 )
+```
